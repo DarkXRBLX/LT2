@@ -376,7 +376,7 @@ function lib:Main()
 		Position = UDim2.new(0.19138819, 0, 0.105, 0),
 		Size = UDim2.new(0, 87, 0, 30),
 		Font = Enum.Font.GothamBold,
-		Text = gameName,
+		Text = '',
 		TextColor3 = Color3.fromRGB(255, 255, 255),
 		TextSize = 20.000,
 		TextXAlignment = Enum.TextXAlignment.Left
