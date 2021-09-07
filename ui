@@ -59,7 +59,7 @@ function lib:Notify(top, bottom)
 	TopBar.Position = UDim2.new(0, 0, -0.178571433, 0)
 	TopBar.Size = UDim2.new(0, 367, 0, 30)
 
-	UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(33, 55, 167)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(50, 64, 140))}
+	UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 0)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))}
 	UIGradient.Rotation = 90
 	UIGradient.Parent = TopBar
 
