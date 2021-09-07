@@ -1,6 +1,4 @@
 local lib = {}
-
-local gameName="  Lumber Tycoon 2"
 if game.PlaceId~=13822889 then
     repeat until nil
 end
