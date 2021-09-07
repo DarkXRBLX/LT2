@@ -127,7 +127,7 @@ function lib:Notify(top, bottom)
 	LogoText_5.Position = UDim2.new(0.193881869,0,0.125, 0)
 	LogoText_5.Size = UDim2.new(0, 87, 0, 30)
 	LogoText_5.Font = Enum.Font.GothamBold
-	LogoText_5.Text = tostring(gameName)
+	LogoText_5.Text = ''
 	LogoText_5.TextColor3 = Color3.fromRGB(255, 255, 255)
 	LogoText_5.TextSize = 14.000
 	UIGradient_3.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(38, 38, 38)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(18, 18, 18))}
