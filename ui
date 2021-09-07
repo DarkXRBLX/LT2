@@ -301,7 +301,7 @@ function lib:Main()
 
 	main.TopBar = lib:Create("Frame", {
 		Name = "TopBar",
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundColor3 = Color3.fromRGB(255, 0, 120),
 		BorderSizePixel = 0,
 		Size = UDim2.new(0, 554, 0, 40),
 	})
