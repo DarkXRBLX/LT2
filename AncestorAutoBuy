@@ -26,11 +26,11 @@ local AncestorAutoBuyShit={
         setChattingValue=game:GetService("ReplicatedStorage").NPCDialog.SetChattingValue,
         clientPlacedStructure=game:GetService("ReplicatedStorage").PlaceStructure.ClientPlacedStructure,
     };
+    functions={}
 }
 
-local functions={};
 --Get getItem and getPrice functions From Ancestor
-functions.getStore=function(item)
+AncestorAutoBuyShit.functions.getStore=function(item)
     local magnitude=9e9
     local counter;
     for _,v in next,workspace.Stores:children()do
@@ -44,8 +44,8 @@ functions.getStore=function(item)
     return counter;
 end;
 
-functions.getCashier=function(item)
-    local store=functions.getStore(item)
+AncestorAutoBuyShit.functions.getCashier=function(item)
+    local store=AncestorAutoBuyShit.functions.getStore(item)
     for i,v in next,store.Parent:children()do 
         if v:IsA("Model")and v:FindFirstChild("Humanoid")then 
             return v; 
@@ -53,8 +53,8 @@ functions.getCashier=function(item)
     end;
 end;
 
-functions.getID=function(item)
-    local v=functions.getCashier(item);
+AncestorAutoBuyShit.functions.getID=function(item)
+    local v=AncestorAutoBuyShit.functions.getCashier(item);
     if tostring(v)=="Thom"then 
         return 10;
     elseif tostring(v)=="Corey"then
@@ -70,8 +70,8 @@ functions.getID=function(item)
     end;
 end;
 
-functions.getItemsOnCounter=function()
-    local shop,counter=functions.getItem(requirements.Strings.autoBuySelectedItem)
+AncestorAutoBuyShit.functions.getItemsOnCounter=function()
+    local shop,counter=AncestorAutoBuyShit.functions.getItem(requirements.Strings.autoBuySelectedItem)
     local boundsA = counter.CFrame * CFrame.new(counter.Size.X/2, 0, counter.Size.Z/2)
     local boundsB = counter.CFrame * CFrame.new(-counter.Size.X/2, 0, -counter.Size.Z/2)
     local counterRegion = Region3.new(Vector3.new(math.min(boundsA.X, boundsB.X), counter.Size.Y/2 + boundsA.Y, math.min(boundsA.Z, boundsB.Z)),
@@ -85,7 +85,7 @@ functions.getItemsOnCounter=function()
     return false;
 end;
 
-functions.getItem=function(item)
+AncestorAutoBuyShit.functions.getItem=function(item)
     local Store,Counter;
     for _,v in next,workspace.Stores:GetChildren()do
         if v.Name == "ShopItems" then 
@@ -118,7 +118,7 @@ functions.getItem=function(item)
     return Store,Counter;
 end;
 
-functions.getPrice=function(item,quantity)
+AncestorAutoBuyShit.functions.getPrice=function(item,quantity)
     money=game.Players.LocalPlayer.leaderstats.Money.Value 
     for _,v in next,game:GetService("ReplicatedStorage").Purchasables:GetDescendants()do 
         if tostring(v)==item then 
@@ -131,13 +131,13 @@ functions.getPrice=function(item,quantity)
     return false;
 end;
 
-functions.buyItem=function(item)
-    Cashier=functions.getCashier(item);
-    CashierID=functions.getID(item);
+AncestorAutoBuyShit.functions.buyItem=function(item)
+    Cashier=AncestorAutoBuyShit.functions.getCashier(item);
+    CashierID=AncestorAutoBuyShit.functions.getID(item);
     AncestorAutoBuyShit.remotes.playerChatted:InvokeServer({Character=Cashier,Name=tostring(Cashier), ID=CashierID},'ConfirmPurchase');
 end
 
-functions.AncestorTeleport=function(cf)
+AncestorAutoBuyShit.functions.AncestorTeleport=function(cf)
     repeat wait()until game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart");
     if game.Players.LocalPlayer.Character.Humanoid.Sit then 
         game.Players.LocalPlayer.Character.Humanoid.SeatPart.Parent:SetPrimaryPartCFrame(cf*CFrame.Angles(math.rad(game.Players.LocalPlayer.Character.Humanoid.SeatPart.Parent.PrimaryPart.Orientation.X), math.rad(game.Players.LocalPlayer.Character.Humanoid.SeatPart.Parent.PrimaryPart.Orientation.Y), math.rad(game.Players.LocalPlayer.Character.Humanoid.SeatPart.Parent.PrimaryPart.Orientation.Z)));
@@ -147,7 +147,7 @@ functions.AncestorTeleport=function(cf)
 end;
 
 
-functions.AutoBuyItem=function(item,quantity)
+AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
     if AncestorAutoBuyShit.Booleans.isBuying then 
         notify("Error","Already Buying!",4);
         return false;
@@ -159,15 +159,15 @@ functions.AutoBuyItem=function(item,quantity)
         game.Players.LocalPlayer.Character.Head.CanCollide = true
         game.Players.LocalPlayer.Character.Torso.CanCollide = true
     end)
-    repeat game:GetService"RunService".Heartbeat:wait() Store,Counter=functions.getItem(item); until Store and Counter;
-    if functions.getItemsOnCounter()then 
+    repeat game:GetService"RunService".Heartbeat:wait() Store,Counter=AncestorAutoBuyShit.functions.getItem(item); until Store and Counter;
+    if AncestorAutoBuyShit.functions.getItemsOnCounter()then 
         AncestorAutoBuyShit.Booleans.abortAutobuy=false;
         pcall(function()
             game.Players.LocalPlayer.Character.Head.CanCollide = false
             game.Players.LocalPlayer.Character.Torso.CanCollide = false
         end)
         AncestorAutoBuyShit.Booleans.isBuying=false;
-        functions.AncestorTeleport(CFrame.new(oldpos.p)); --Convert To Bark Tp Method
+        AncestorAutoBuyShit.functions.AncestorTeleport(CFrame.new(oldpos.p)); --Convert To Bark Tp Method
         notify("Error","Items Are On The Counter. Aborting....",4);
         return false;
     end;
@@ -178,7 +178,7 @@ functions.AutoBuyItem=function(item,quantity)
             game.Players.LocalPlayer.Character.Torso.CanCollide = false
         end)
         AncestorAutoBuyShit.Booleans.isBuying=false;
-        functions.AncestorTeleport(CFrame.new(oldpos.p));
+        AncestorAutoBuyShit.functions.AncestorTeleport(CFrame.new(oldpos.p));
         notify("Error","Not Enough Money!",4);
         return false;
     end;
@@ -190,7 +190,7 @@ functions.AutoBuyItem=function(item,quantity)
                 game.Players.LocalPlayer.Character.Torso.CanCollide = false
             end)
             AncestorAutoBuyShit.Booleans.isBuying=false;
-            functions.AncestorTeleport(CFrame.new(oldpos.p));
+            AncestorAutoBuyShit.functions.AncestorTeleport(CFrame.new(oldpos.p));
             notify("Notify","Aborted Autobuy!",4);
             return false;
         end;
@@ -209,7 +209,7 @@ functions.AutoBuyItem=function(item,quantity)
                 game.Players.LocalPlayer.Character.Torso.CanCollide = false
             end)
             AncestorAutoBuyShit.Booleans.isBuying=false;
-            functions.AncestorTeleport(CFrame.new(oldpos.p));
+            AncestorAutoBuyShit.functions.AncestorTeleport(CFrame.new(oldpos.p));
             notify("Error","Item Not Found!",4);
             return false;
         end;
@@ -236,7 +236,7 @@ functions.AutoBuyItem=function(item,quantity)
             until tick()-start > 0.13
         end);
         spawnf(function()
-            repeat functions.buyItem(itemToBuy)game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
+            repeat AncestorAutoBuyShit.functions.buyItem(itemToBuy)game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
         end);
         repeat game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
         spawnf(function()
@@ -252,7 +252,7 @@ functions.AutoBuyItem=function(item,quantity)
             --game.ReplicatedStorage.PlaceStructure.ClientPlacedStructure:FireServer(nil, CFrame.new(oldpos.p+Vector3.new(4,0,4)), requirements.LP, nil, requirements.connections.buyCheck, true)
         end);
     end;
-    functions.AncestorTeleport(CFrame.new(oldpos.p));
+    AncestorAutoBuyShit.functions.AncestorTeleport(CFrame.new(oldpos.p));
     pcall(function()
         game.Players.LocalPlayer.Character.Head.CanCollide = false
         game.Players.LocalPlayer.Character.Torso.CanCollide = false
