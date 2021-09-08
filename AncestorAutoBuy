@@ -247,9 +247,7 @@
             end);
             spawnf(function()
                 repeat AncestorAutoBuyShit.functions.buyItem(itemToBuy)game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
-            end);
-            repeat game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
-            spawnf(function()
+                spawnf(function()
                 local start = tick()
                 repeat game:GetService("RunService").Heartbeat:wait()
                     AncestorAutoBuyShit.remotes.clientRequestOwnership:FireServer(itemToBuy);
@@ -259,6 +257,8 @@
                 spawnf(function()
                     itemToBuy:SetPrimaryPartCFrame(CFrame.new(oldpos.p+Vector3.new(4,0,4)));
                 end)
+            end);
+            repeat game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
                 --game.ReplicatedStorage.PlaceStructure.ClientPlacedStructure:FireServer(nil, CFrame.new(oldpos.p+Vector3.new(4,0,4)), requirements.LP, nil, requirements.connections.buyCheck, true)
             end);
         end;
