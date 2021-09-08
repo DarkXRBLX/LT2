@@ -260,4 +260,4 @@ AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
     AncestorAutoBuyShit.Booleans.isBuying=false;
     return true;
 end;
-return functions
+return AncestorAutoBuyShit
