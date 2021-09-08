@@ -27,7 +27,8 @@ local AncestorAutoBuyShit={
         clientPlacedStructure=game:GetService("ReplicatedStorage").PlaceStructure.ClientPlacedStructure,
     };
     functions={}
-}
+};
+getgenv().spawnf = function(func,...) return coroutine.wrap(func)(...) end
 AncestorAutoBuyShit.functions.notify=function(title, text, duration)
     game.StarterGui:SetCore(
         "SendNotification",
@@ -244,18 +245,18 @@ AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
                 itemToBuy:SetPrimaryPartCFrame(Counter.CFrame+Vector3.new(0,.1,0));
             until tick()-start > 0.13
         end);
-        spawn(function()
+        spawnf(function()
             repeat AncestorAutoBuyShit.functions.buyItem(itemToBuy)game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
         end);
         repeat game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
-        spawn(function()
+        spawnf(function()
             local start = tick()
             repeat game:GetService("RunService").Heartbeat:wait()
                 AncestorAutoBuyShit.remotes.clientRequestOwnership:FireServer(itemToBuy);
                 AncestorAutoBuyShit.remotes.clientIsDragging:FireServer(itemToBuy);
                 itemToBuy:SetPrimaryPartCFrame(CFrame.new(oldpos.p+Vector3.new(4,0,4)));
             until tick()-start > 0.13
-            spawn(function()
+            spawnf(function()
                 itemToBuy:SetPrimaryPartCFrame(CFrame.new(oldpos.p+Vector3.new(4,0,4)));
             end)
             --game.ReplicatedStorage.PlaceStructure.ClientPlacedStructure:FireServer(nil, CFrame.new(oldpos.p+Vector3.new(4,0,4)), requirements.LP, nil, requirements.connections.buyCheck, true)
