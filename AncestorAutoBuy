@@ -70,8 +70,8 @@ AncestorAutoBuyShit.functions.getID=function(item)
     end;
 end;
 
-AncestorAutoBuyShit.functions.getItemsOnCounter=function()
-    local shop,counter=AncestorAutoBuyShit.functions.getItem(requirements.Strings.autoBuySelectedItem)
+AncestorAutoBuyShit.functions.getItemsOnCounter=function(item)
+    local shop,counter=AncestorAutoBuyShit.functions.getItem(tostring(item))
     local boundsA = counter.CFrame * CFrame.new(counter.Size.X/2, 0, counter.Size.Z/2)
     local boundsB = counter.CFrame * CFrame.new(-counter.Size.X/2, 0, -counter.Size.Z/2)
     local counterRegion = Region3.new(Vector3.new(math.min(boundsA.X, boundsB.X), counter.Size.Y/2 + boundsA.Y, math.min(boundsA.Z, boundsB.Z)),
@@ -160,7 +160,7 @@ AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
         game.Players.LocalPlayer.Character.Torso.CanCollide = true
     end)
     repeat game:GetService"RunService".Heartbeat:wait() Store,Counter=AncestorAutoBuyShit.functions.getItem(item); until Store and Counter;
-    if AncestorAutoBuyShit.functions.getItemsOnCounter()then 
+    if AncestorAutoBuyShit.functions.getItemsOnCounter(item)then 
         AncestorAutoBuyShit.Booleans.abortAutobuy=false;
         pcall(function()
             game.Players.LocalPlayer.Character.Head.CanCollide = false
