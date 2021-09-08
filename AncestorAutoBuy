@@ -1,11 +1,3 @@
---[[
-  Oh wow you maga hacker you found the auto buy open sourced!!!!!!
-  enjoy skid
-  ]] 
-  
-  --To Avoid 200 Local Variable Restriction
-
-
 local AncestorAutoBuyShit={
     Booleans={
         isBuying=false,
@@ -268,4 +260,4 @@ functions.AutoBuyItem=function(item,quantity)
     AncestorAutoBuyShit.Booleans.isBuying=false;
     return true;
 end;
-return AncestorAutoBuyShit,functions
+return functions
