@@ -28,8 +28,17 @@ local AncestorAutoBuyShit={
     };
     functions={}
 }
+AncestorAutoBuyShit.functions.notify=function(title, text, duration)
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title=title,
+            Text=text,
+            Duration=duration;
+        }
+    );
+end;
 
---Get getItem and getPrice functions From Ancestor
 AncestorAutoBuyShit.functions.getStore=function(item)
     local magnitude=9e9
     local counter;
@@ -149,7 +158,7 @@ end;
 
 AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
     if AncestorAutoBuyShit.Booleans.isBuying then 
-        notify("Error","Already Buying!",4);
+        AncestorAutoBuyShit.functions.notify("Error","Already Buying!",4);
         return false;
     end;
     local Store,Counter;
@@ -168,10 +177,10 @@ AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
         end)
         AncestorAutoBuyShit.Booleans.isBuying=false;
         AncestorAutoBuyShit.functions.AncestorTeleport(CFrame.new(oldpos.p)); --Convert To Bark Tp Method
-        notify("Error","Items Are On The Counter. Aborting....",4);
+        AncestorAutoBuyShit.functions.notify("Error","Items Are On The Counter. Aborting....",4);
         return false;
     end;
-    price=getPrice(tostring(item),quantity);
+    price=AncestorAutoBuyShit.functions.getPrice(tostring(item),quantity);
     if not price and not requirements.Booleans.loopBuying then 
         pcall(function()
             game.Players.LocalPlayer.Character.Head.CanCollide = false
@@ -179,7 +188,7 @@ AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
         end)
         AncestorAutoBuyShit.Booleans.isBuying=false;
         AncestorAutoBuyShit.functions.AncestorTeleport(CFrame.new(oldpos.p));
-        notify("Error","Not Enough Money!",4);
+        AncestorAutoBuyShit.functions.notify("Error","Not Enough Money!",4);
         return false;
     end;
     for i=1,quantity do
@@ -191,7 +200,7 @@ AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
             end)
             AncestorAutoBuyShit.Booleans.isBuying=false;
             AncestorAutoBuyShit.functions.AncestorTeleport(CFrame.new(oldpos.p));
-            notify("Notify","Aborted Autobuy!",4);
+            AncestorAutoBuyShit.functions.notify("Notify","Aborted Autobuy!",4);
             return false;
         end;
         itemToBuy=Store:FindFirstChild(item);
@@ -210,7 +219,7 @@ AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
             end)
             AncestorAutoBuyShit.Booleans.isBuying=false;
             AncestorAutoBuyShit.functions.AncestorTeleport(CFrame.new(oldpos.p));
-            notify("Error","Item Not Found!",4);
+            AncestorAutoBuyShit.functions.notify("Error","Item Not Found!",4);
             return false;
         end;
         if i==1 then
@@ -227,7 +236,7 @@ AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
             end;
         end);
         game.ReplicatedStorage.TestPing:InvokeServer();
-        spawnf(function()
+        spawn(function()
             local start = tick()
             repeat game:GetService("RunService").Heartbeat:wait()
                 AncestorAutoBuyShit.remotes.clientRequestOwnership:FireServer(itemToBuy);
@@ -235,11 +244,11 @@ AncestorAutoBuyShit.functions.AutoBuyItem=function(item,quantity)
                 itemToBuy:SetPrimaryPartCFrame(Counter.CFrame+Vector3.new(0,.1,0));
             until tick()-start > 0.13
         end);
-        spawnf(function()
+        spawn(function()
             repeat AncestorAutoBuyShit.functions.buyItem(itemToBuy)game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
         end);
         repeat game:GetService"RunService".Heartbeat:wait()until typeof(AncestorAutoBuyShit.connections.buyCheck)=="Instance";
-        spawnf(function()
+        spawn(function()
             local start = tick()
             repeat game:GetService("RunService").Heartbeat:wait()
                 AncestorAutoBuyShit.remotes.clientRequestOwnership:FireServer(itemToBuy);
